@@ -4,6 +4,7 @@
     Author     : Stefan
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a class="navbar-brand" href="{pageContext.request.contextPath}">Jobs</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,17 +16,27 @@
       <li class="nav-item ${pageContext.request.requestURI eq '/Project/about.jsp' ? 'active' : ''}">
           <a class="nav-link" href="${pageContext.request.contextPath}/about.jsp">About</a>
       </li>
-      <li class="nav-item ${activePage eq 'Jobs' ? 'active' : ''}">
-        <a class="nav-link" href="${pageContext.request.contextPath}/Jobs">Jobs</a>
-      </li>
-      <li class="nav-item ${activePage eq 'Users' ? 'active' : ''}">
-        <a class="nav-link" href="${pageContext.request.contextPath}/Users">Users</a>
-      </li>
-      
+      <c:if test="${pageContext.request.isUserInRole('AdminRole')}">
+            <li class="nav-item ${activePage eq 'Jobs' ? 'active' : ''}">
+                <a class="nav-link" href="${pageContext.request.contextPath}/Jobs">Jobs</a>
+            </li>
+      </c:if>
+      <c:if test="${pageContext.request.isUserInRole('ClientRole')}">
+            <li class="nav-item ${activePage eq 'Users' ? 'active' : ''}">
+                <a class="nav-link" href="${pageContext.request.contextPath}/Users">Users</a>
+             </li>
+      </c:if>
     </ul>
       <ul class="navbar-nav m1-auto">
           <li class="nav-item">
-              <a class="nav-link" href="${pageContext.request.contextPath}/Login">Login</a>
+            <c:choose>
+                <c:when test="${pageContext.request.getRemoteUser() == null}">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/Login">Login</a>
+                </c:when>
+                <c:otherwise>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/Logout">Logout</a>
+                </c:otherwise>
+            </c:choose>
           </li>
       </ul>
   </div>

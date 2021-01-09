@@ -5,19 +5,9 @@
  */
 package com.project.project.servlet;
 
-import com.project.project.common.JobDetails;
-import com.project.project.ejb.JobBean;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.security.DeclareRoles;
-
-import javax.inject.Inject;
-
 import javax.servlet.ServletException;
-import javax.servlet.annotation.HttpMethodConstraint;
-import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,20 +17,18 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Stefan
  */
+@WebServlet(name = "Login", urlPatterns = {"/Login"})
+public class Login extends HttpServlet {
 
-@DeclareRoles({"AdminRole","ClientRole","DirectorRole","HrRole","RecruiterRole"})
-
-@ServletSecurity(
-        httpMethodConstraints = @HttpMethodConstraint(value = "POST", rolesAllowed = {"HrRole","DirectorRole","AdminRole"})
-            
-)
-
-@WebServlet(name = "Jobs", urlPatterns = {"/Jobs"})
-public class Jobs extends HttpServlet {
-
-    @Inject
-    private JobBean jobBean;
-    
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -49,10 +37,10 @@ public class Jobs extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Jobs</title>");            
+            out.println("<title>Servlet Login</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Jobs at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Login at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -71,11 +59,7 @@ public class Jobs extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        request.setAttribute("activePage", "Jobs");
-        
-        List<JobDetails> jobs = jobBean.getAllJobs();
-        request.setAttribute("jobs", jobs);
-        request.getRequestDispatcher("/WEB-INF/pages/jobs.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request,response);
     }
 
     /**
@@ -89,16 +73,9 @@ public class Jobs extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-        String[] jobIdsAsString = request.getParameterValues("job_ids");
-        if(jobIdsAsString != null){
-            List<Integer> jobIds = new ArrayList<>();
-            for(String jobIdAsString : jobIdsAsString){
-                jobIds.add(Integer.parseInt(jobIdAsString));
-            }
-            jobBean.deleteJobsByIds(jobIds);
-        }
-        response.sendRedirect(request.getContextPath()+"/Jobs");
+       // processRequest(request, response);
+       request.setAttribute("message", "Username or password incorrect");
+       request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
     }
 
     /**
