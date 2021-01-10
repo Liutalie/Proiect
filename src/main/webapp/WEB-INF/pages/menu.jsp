@@ -16,12 +16,12 @@
       <li class="nav-item ${pageContext.request.requestURI eq '/Project/about.jsp' ? 'active' : ''}">
           <a class="nav-link" href="${pageContext.request.contextPath}/about.jsp">About</a>
       </li>
-      <c:if test="${pageContext.request.isUserInRole('AdminRole')}">
-            <li class="nav-item ${activePage eq 'Jobs' ? 'active' : ''}">
-                <a class="nav-link" href="${pageContext.request.contextPath}/Jobs">Jobs</a>
-            </li>
-      </c:if>
       <c:if test="${pageContext.request.isUserInRole('ClientRole')}">
+                <li class="nav-item ${activePage eq 'Jobs' ? 'active' : ''}">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/Jobs">Jobs</a>
+                </li>
+      </c:if>
+      <c:if test="${pageContext.request.isUserInRole('AdminRole')}">
             <li class="nav-item ${activePage eq 'Users' ? 'active' : ''}">
                 <a class="nav-link" href="${pageContext.request.contextPath}/Users">Users</a>
              </li>

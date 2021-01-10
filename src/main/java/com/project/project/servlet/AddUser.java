@@ -5,37 +5,27 @@
  */
 package com.project.project.servlet;
 
-import com.project.project.common.UserDetails;
-import com.project.project.ejb.JobBean;
 import com.project.project.ejb.UserBean;
+import com.project.project.util.PasswordUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
-import javax.servlet.annotation.HttpMethodConstraint;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Stefan
- */
 
-@ServletSecurity(value = @HttpConstraint(rolesAllowed ={"HrRole","DirectorRole"}))
+@ServletSecurity(value = @HttpConstraint(rolesAllowed ={"AdminRole"}))
 
-@WebServlet(name = "AddJob", urlPatterns = {"/Jobs/Create"})
-public class AddJob extends HttpServlet {
+@WebServlet(name = "AddUser", urlPatterns = {"/Users/Create"})
+public class AddUser extends HttpServlet {
 
-    @Inject
+    @Inject 
     UserBean userBean;
-    
-    @Inject
-    JobBean jobBean;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -45,10 +35,10 @@ public class AddJob extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddJob</title>");            
+            out.println("<title>Servlet AddUser</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddJob at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AddUser at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -67,9 +57,7 @@ public class AddJob extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        List<UserDetails> users = userBean.getAllUsers();
-        request.setAttribute("users", users);
-        request.getRequestDispatcher("/WEB-INF/pages/addJob.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/pages/addUser.jsp").forward(request, response);
     }
 
     /**
@@ -84,14 +72,16 @@ public class AddJob extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        String jobType = request.getParameter("job_type");
-        String firmName = request.getParameter("firm_name");
-        int ownerId = Integer.parseInt(request.getParameter("owner_id"));
+        String username = request.getParameter("username");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String position = request.getParameter("position");
         
-        jobBean.createJob(jobType,firmName,ownerId);
+        String passwordSha256 = PasswordUtil.convertToSha256(password);
         
-        response.sendRedirect(request.getContextPath()+"/Jobs");
+        userBean.createUser(username, email, passwordSha256, position);
         
+        response.sendRedirect(request.getContextPath()+"/Users");
     }
 
     /**

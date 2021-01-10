@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 @DeclareRoles({"AdminRole","ClientRole","DirectorRole","HrRole","RecruiterRole"})
 
 @ServletSecurity(
-        httpMethodConstraints = @HttpMethodConstraint(value = "POST", rolesAllowed = {"HrRole","DirectorRole","AdminRole"})
+        httpMethodConstraints = @HttpMethodConstraint(value = "POST", rolesAllowed = {"HrRole","DirectorRole"})
             
 )
 

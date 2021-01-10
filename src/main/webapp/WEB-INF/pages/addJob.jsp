@@ -10,7 +10,7 @@
 
 <t:pageTemplate pageTitle="Add Job">
     <h1>Add Job</h1>
-    <form class="needs-validation" novalidate method="POST" action="${pageContext.request.contextPath}/AddJob">
+    <form class="needs-validation" novalidate method="POST" action="${pageContext.request.contextPath}/Jobs/Create">
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="job_type">Job Type</label>

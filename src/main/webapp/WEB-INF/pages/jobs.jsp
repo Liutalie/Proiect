@@ -11,8 +11,10 @@
 <t:pageTemplate pageTitle="Jobs">
     <h1> Jobs </h1>
     <form method="POST" action="${pageContext.request.contextPath}/Jobs">
-        <a class="btn btn-outline-success btn-lg" href="${pageContext.request.contextPath}/AddJob" role="button">Add Job</a>
-        <button class="btn btn-outline-danger btn-lg" type="submit">Delete Jobs</button>
+        <c:if test="${pageContext.request.isUserInRole('HrRole')}">
+            <a class="btn btn-outline-success btn-lg" href="${pageContext.request.contextPath}/Jobs/Create" role="button">Add Job</a>
+            <button class="btn btn-outline-danger btn-lg" type="submit">Delete Jobs</button>
+        </c:if>
         <c:forEach var="job" items="${jobs}" varStatus="status">
             <div class="row">
                 <div class="col-md">
@@ -28,7 +30,9 @@
                     ${job.username}
                 </div>
                 <div class="col-md-2">
-                    <a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/EditJob?id=${job.id}" role="button">Edit Job</a>
+                    <c:if test="${pageContext.request.isUserInRole('HrRole')}">
+                        <a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/Jobs/Update?id=${job.id}" role="button">Edit Job</a>
+                    </c:if>
                 </div>
             </div>
         </c:forEach>
