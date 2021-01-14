@@ -9,6 +9,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <t:pageTemplate pageTitle="Login">
+    <style>
+        form {
+            color: white;
+        }
+    </style>
     <c:if test="${message != null}">
         <div class="alert alert-warning" role="alert">
             ${message}

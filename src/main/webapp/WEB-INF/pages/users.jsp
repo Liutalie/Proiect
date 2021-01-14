@@ -9,7 +9,13 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
 <t:pageTemplate pageTitle="Users">
-    <h1> User </h1>
+    <h1> Users </h1>
+    <style>
+        h1, form {
+            color: white;
+            font-size: 20px;
+        }
+    </style>
     <form method="POST" action="${pageContext.request.contextPath}/Users">
         <c:if test="${pageContext.request.isUserInRole('AdminRole')}">
             <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/Users/Create" role="button">Add User</a>
@@ -32,8 +38,4 @@
             </div>
         </c:forEach>
     </form> 
-    invoice for:
-    <c:forEach var="username" items="${invoices}" varStatus="status">
-        ${username}
-    </c:forEach>
 </t:pageTemplate>

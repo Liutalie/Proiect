@@ -9,6 +9,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <t:pageTemplate pageTitle="Add Job">
+    </style>
     <h1>Add Job</h1>
     <form class="needs-validation" novalidate method="POST" action="${pageContext.request.contextPath}/Jobs/Create">
         <div class="row">
